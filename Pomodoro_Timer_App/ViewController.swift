@@ -66,10 +66,12 @@ class ViewController: UIViewController {
         return stackView
     }()
 
-    private lazy var circleView: UIView = {
-        var cirlceView = UIView()
+    private lazy var circularProgressView: CircularProgressView = {
+        var progressView = CircularProgressView(frame: CGRect(x: Metrics.sircularViewFrameSize, y: Metrics.sircularViewFrameSize, width: Metrics.sircularViewSize, height: Metrics.sircularViewSize))
+        progressView.trackColor = UIColor.white
+        progressView.progressColor = timerColor
 
-        return cirlceView
+        return progressView
     }()
 
     // MARK: - Lifecycle
@@ -83,6 +85,7 @@ class ViewController: UIViewController {
     }
 
     private func setupHierarchy() {
+        view.addSubview(circularProgressView)
         view.addSubview(parentStackView)
 
         parentStackView.addArrangedSubview(timerLabel)
@@ -96,6 +99,8 @@ class ViewController: UIViewController {
         parentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 18).isActive = true
         parentStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -18).isActive = true
         parentStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -300).isActive = true
+
+        circularProgressView.center = self.view.center
     }
 
     private func setupView() {
@@ -128,21 +133,21 @@ class ViewController: UIViewController {
 
     @objc func tickTimer() {
         timerTick += 1
-        var timerData = TimeData(seconds: timerTick)
-        timerLabel.text = timerData.toTimeString()
 
         if isTimerRichLimit {
             timer.invalidate()
             isWorkTime = !isWorkTime
             timerTick = 0
 
-            timerData = TimeData(seconds: timerTick)
-            timerLabel.text = timerData.toTimeString()
-
             timerLabel.textColor = timerColor
+            circularProgressView.progressColor = timerColor
 
             startTimer()
         }
+
+        let timerData = TimeData(seconds: timerTick)
+        timerLabel.text = timerData.toTimeString()
+        circularProgressView.setProgress(to: CGFloat(timerTick) / (timerLimitInSeconds))
     }
 
     private func startTimer() {
@@ -169,7 +174,11 @@ extension ViewController {
 
     enum Metrics {
         static let backgroundColor: UIColor = .black
+
         static let timerLabelFonSize: CGFloat = 70
         static let timerLabelTextColor: UIColor = .green
+
+        static let sircularViewSize: Double = 250
+        static let sircularViewFrameSize: Double = 10
     }
 }
