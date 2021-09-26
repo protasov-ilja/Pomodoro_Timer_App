@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DF2B8FDE27006B3400AC0F86 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2B8FDD27006B3400AC0F86 /* CircularProgressView.swift */; };
 		DFB5BCA426FE68CC00BDC790 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB5BCA326FE68CC00BDC790 /* AppDelegate.swift */; };
 		DFB5BCA626FE68CC00BDC790 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB5BCA526FE68CC00BDC790 /* SceneDelegate.swift */; };
 		DFB5BCA826FE68CC00BDC790 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB5BCA726FE68CC00BDC790 /* ViewController.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DF2B8FDD27006B3400AC0F86 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		DFB5BCA026FE68CC00BDC790 /* Pomodoro_Timer_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pomodoro_Timer_App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFB5BCA326FE68CC00BDC790 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DFB5BCA526FE68CC00BDC790 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 				DFB5BCAE26FE68D700BDC790 /* LaunchScreen.storyboard */,
 				DFB5BCB126FE68D700BDC790 /* Info.plist */,
 				DFB5BCB826FE745600BDC790 /* TimeData.swift */,
+				DF2B8FDD27006B3400AC0F86 /* CircularProgressView.swift */,
 			);
 			path = Pomodoro_Timer_App;
 			sourceTree = "<group>";
@@ -143,6 +146,7 @@
 				DFB5BCA826FE68CC00BDC790 /* ViewController.swift in Sources */,
 				DFB5BCA426FE68CC00BDC790 /* AppDelegate.swift in Sources */,
 				DFB5BCB926FE745600BDC790 /* TimeData.swift in Sources */,
+				DF2B8FDE27006B3400AC0F86 /* CircularProgressView.swift in Sources */,
 				DFB5BCA626FE68CC00BDC790 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
