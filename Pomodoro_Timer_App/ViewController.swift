@@ -11,12 +11,29 @@ class ViewController: UIViewController {
     private var timer = Timer()
     private var timerTick = 0
     private var isStarted = false
+    private var isWorkTime = true
 
-    private var timerLimitInSeconds = TimerMetrics.workTimeInMinutes * 60
+    private var timerLimitInSeconds: CGFloat {
+        if isWorkTime {
+            return TimerMetrics.workTimeInMinutes * 60
+        }
+
+        return TimerMetrics.restTimeInMinutes * 60
+    }
 
     private var isTimerRichLimit: Bool {
         get {
             return timerTick >= Int(timerLimitInSeconds)
+        }
+    }
+
+    private var timerColor: UIColor {
+        get {
+            if isWorkTime {
+                return TimerMetrics.workStateTimerColor
+            }
+
+            return TimerMetrics.restStateTimerColor
         }
     }
 
@@ -25,7 +42,7 @@ class ViewController: UIViewController {
 
         label.text = "00:00"
         label.font = .systemFont(ofSize: Metrics.timerLabelFonSize, weight: .medium)
-        label.textColor = TimerMetrics.workStateTimerColor
+        label.textColor = timerColor
         label.textAlignment = .center
 
         return label
@@ -34,7 +51,7 @@ class ViewController: UIViewController {
     private lazy var timerButton: UIButton = {
         var button = UIButton(type: .system)
 
-        setPlayImage(for: button, with: TimerMetrics.workStateTimerColor)
+        setPlayImage(for: button, with: timerColor)
         button.imageView?.contentMode = .scaleAspectFit
         button.addTarget(self, action: #selector(timerButtonPressed), for: .touchUpInside)
 
@@ -103,24 +120,41 @@ class ViewController: UIViewController {
 
     @objc func timerButtonPressed() {
         if !isStarted && !isTimerRichLimit {
-            setPauseImage(for: timerButton, with: TimerMetrics.workStateTimerColor)
-            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(tickTimer), userInfo: nil, repeats: true)
-            isStarted = true
+            startTimer()
         } else {
-            setPlayImage(for: timerButton, with: TimerMetrics.workStateTimerColor)
-            timer.invalidate()
-            isStarted = false
+            pauseTimer()
         }
     }
 
     @objc func tickTimer() {
         timerTick += 1
-        let timerData = TimeData(seconds: timerTick)
+        var timerData = TimeData(seconds: timerTick)
         timerLabel.text = timerData.toTimeString()
 
         if isTimerRichLimit {
             timer.invalidate()
+            isWorkTime = !isWorkTime
+            timerTick = 0
+
+            timerData = TimeData(seconds: timerTick)
+            timerLabel.text = timerData.toTimeString()
+
+            timerLabel.textColor = timerColor
+
+            startTimer()
         }
+    }
+
+    private func startTimer() {
+        setPauseImage(for: timerButton, with: timerColor)
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(tickTimer), userInfo: nil, repeats: true)
+        isStarted = true
+    }
+
+    private func pauseTimer() {
+        setPlayImage(for: timerButton, with: timerColor)
+        timer.invalidate()
+        isStarted = false
     }
 }
 
@@ -128,8 +162,9 @@ class ViewController: UIViewController {
 extension ViewController {
     enum TimerMetrics {
         static let restTimeInMinutes: CGFloat = 5
-        static let workTimeInMinutes: CGFloat = 0.25
+        static let workTimeInMinutes: CGFloat = 25
         static let workStateTimerColor: UIColor = .green
+        static let restStateTimerColor: UIColor = .red
     }
 
     enum Metrics {
